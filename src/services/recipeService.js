@@ -9,3 +9,14 @@ export const getAllCuisine = async () => {
 	);
 	return await response.json();
 };
+export const getRecipes = async (limit = 9) => {
+	const response = await fetch(
+		`${process.env.RECIPE_API_URL}recipes?limit=${limit}`,
+		{
+			next: {
+				revalidate: 3600,
+			},
+		},
+	);
+	return await response.json();
+};
