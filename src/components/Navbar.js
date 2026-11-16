@@ -1,32 +1,25 @@
-import styles from "./Navbar.module.css";
+import Link from "next/link";
+import { Container, Nav, Navbar as BsNavbar } from "react-bootstrap";
 
-// TODO: uvezi Link iz "next/link" (default import, bez vitičastih zagrada)
-
+// Bootstrapov Navbar preimenujemo u BsNavbar, jer se i naša komponenta zove Navbar
 const Navbar = () => {
 	return (
-		<header className={styles.header}>
-			<nav className={styles.nav}>
-				{/* TODO: zamijeni <a> s <Link> (href ostaje isti) */}
-				<a href="/" className={styles.logo}>
-					<span className={styles.logoMark}>Recipe</span>Hub
-				</a>
+		<BsNavbar bg="white" sticky="top" className="border-bottom shadow-sm">
+			<Container>
+				<Link href="/" className="navbar-brand fw-bold fs-4">
+					<span className="text-primary">Recipe</span>Hub
+				</Link>
 
-				<ul className={styles.links}>
-					<li>
-						{/* TODO: zamijeni <a> s <Link> */}
-						<a href="/" className={styles.link}>
-							Home
-						</a>
-					</li>
-					<li>
-						{/* TODO: zamijeni <a> s <Link> */}
-						<a href="/recipes" className={styles.link}>
-							Recipes
-						</a>
-					</li>
-				</ul>
-			</nav>
-		</header>
+				<Nav className="ms-auto">
+					<Link href="/" className="nav-link">
+						Home
+					</Link>
+					<Link href="/recipes" className="nav-link">
+						Recipes
+					</Link>
+				</Nav>
+			</Container>
+		</BsNavbar>
 	);
 };
 

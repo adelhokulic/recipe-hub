@@ -1,37 +1,57 @@
 import Link from "next/link";
-import styles from "./RecipeCard.module.css";
 import Image from "next/image";
+import { Badge, Card, CardBody, CardTitle } from "react-bootstrap";
 
 const RecipeCard = ({ recipe }) => {
+	const diffColor = (diff) => {
+		if (diff === "Easy") {
+			return "success";
+		} else if (diff === "Medium") {
+			return "warning";
+		} else {
+			return "danger";
+		}
+	};
 	return (
-		<Link href={`/recipes/${recipe.id}`} className={styles.card}>
-			<div className={styles.imageWrapper}>
+		<Card className="recipe-card h-100 border-0 shadow-sm overflow-hidden">
+			<div className="ratio ratio-4x3">
 				<Image
 					src={recipe.image}
 					alt={recipe.name}
-					width="500"
-					height="300"
-					className={styles.image}
+					width={500}
+					height={375}
+					className="object-fit-cover"
 				/>
-				<span className={styles.rating}>★ {recipe.rating}</span>
-			</div>
-
-			<div className={styles.body}>
-				<p className={styles.cuisine}>{recipe.cuisine}</p>
-
-				<h2 className={styles.title}>{recipe.name}</h2>
-
-				<div className={styles.meta}>
-					<span>⏱ {recipe.prepTimeMinutes} min</span>
-
-					<span
-						className={`${styles.badge} ${styles[recipe.difficulty.toLowerCase()]}`}
-					>
-						{recipe.difficulty}
-					</span>
+				<div className="p-2 d-flex justify-content-end align-items-start">
+					<Badge bg="dark" pill className="bg-opacity-75">
+						★ {recipe.rating}
+					</Badge>
 				</div>
 			</div>
-		</Link>
+
+			<CardBody className="d-flex flex-column">
+				<p className="text-primary text-uppercase small fw-semibold mb-1">
+					{recipe.cuisine}
+				</p>
+
+				<CardTitle as="h2" className="fs-5">
+					<Link
+						href={`/recipes/${recipe.id}`}
+						className="stretched-link text-dark text-decoration-none"
+					>
+						{recipe.name}
+					</Link>
+				</CardTitle>
+
+				<div className="mt-auto pt-2 d-flex justify-content-between align-items-center text-secondary">
+					<span>⏱ {recipe.prepTimeMinutes} min</span>
+
+					<Badge bg={diffColor(recipe.difficulty)} pill>
+						{recipe.difficulty}
+					</Badge>
+				</div>
+			</CardBody>
+		</Card>
 	);
 };
 
