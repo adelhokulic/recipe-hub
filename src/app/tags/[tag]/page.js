@@ -11,7 +11,7 @@ const TagsPage = async ({ params }) => {
 		return (
 			<NotFound
 				title={`No recipes found for tag ${tag}`}
-				message="The recipes for tag you are looking for do not exist or has been removed"
+				message="The recipes for tag you are looking for do not exist or have been removed"
 			/>
 		);
 	return (

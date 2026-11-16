@@ -110,9 +110,7 @@ const RecipesId = async ({ params }) => {
 							<ListGroup variant="flush">
 								{data.ingredients.map((ingredient) => {
 									return (
-										<ListGroupItem key={ingredient}>
-											{ingredient}
-										</ListGroupItem>
+										<ListGroupItem key={ingredient}>{ingredient}</ListGroupItem>
 									);
 								})}
 							</ListGroup>

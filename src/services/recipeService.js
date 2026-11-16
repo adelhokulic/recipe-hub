@@ -43,3 +43,12 @@ export const getRecipeByTag = async (tag) => {
 	}
 	return data;
 };
+
+export const getAllRecipes = async () => {
+	const response = await fetch(`${process.env.RECIPE_API_URL}recipes?limit=0`, {
+		next: {
+			revalidate: 3600,
+		},
+	});
+	return await response.json();
+};
