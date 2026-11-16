@@ -1,6 +1,7 @@
 import { getRecipeById } from "@/services/recipeService";
 import Link from "next/link";
 import NotFound from "@/components/NotFound";
+
 import {
 	Card,
 	CardHeader,
@@ -10,6 +11,7 @@ import {
 	Row,
 } from "react-bootstrap";
 import Image from "next/image";
+import ToggleIngredients from "@/components/ToggleIngredients";
 
 const RecipesId = async ({ params }) => {
 	const paramsResponse = await params;
@@ -104,20 +106,17 @@ const RecipesId = async ({ params }) => {
 			<Row className="g-4 align-items-start">
 				<Col md={4}>
 					<Card className="border-0 shadow-sm">
-						<CardHeader className="bg-white d-flex justify-content-between align-items-center py-3">
-							<h2 className="fs-5 fw-bold mb-0">Ingredients</h2>
-							{/* TODO (kasnije): ovdje dolazi client komponenta s gumbom Show/Hide ingredients */}
-						</CardHeader>
-
-						<ListGroup variant="flush">
-							{data.ingredients.map((ingredient) => {
-								return (
-									<ListGroupItem as="li" key={ingredient}>
-										{ingredient}
-									</ListGroupItem>
-								);
-							})}
-						</ListGroup>
+						<ToggleIngredients>
+							<ListGroup variant="flush">
+								{data.ingredients.map((ingredient) => {
+									return (
+										<ListGroupItem key={ingredient}>
+											{ingredient}
+										</ListGroupItem>
+									);
+								})}
+							</ListGroup>
+						</ToggleIngredients>
 					</Card>
 				</Col>
 
