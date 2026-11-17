@@ -52,3 +52,19 @@ export const getAllRecipes = async () => {
 	});
 	return await response.json();
 };
+
+export const getRecipeByMealType = async (type) => {
+	const response = await fetch(
+		`${process.env.RECIPE_API_URL}recipes/meal-type/${type}`,
+		{
+			next: {
+				revalidate: 3600,
+			},
+		},
+	);
+	const data = await response.json();
+	if (data.recipes.length === 0) {
+		return false;
+	}
+	return data;
+};

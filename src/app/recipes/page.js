@@ -29,7 +29,6 @@ const Recipes = async ({ searchParams }) => {
 				</p>
 			</div>
 
-			{/* xs={1}: jedna kolona na mobitelu, sm={2}: dvije, lg={3}: tri */}
 			<Row xs={1} sm={2} lg={3} className="g-4">
 				{recipes.map((recipe) => {
 					return (
