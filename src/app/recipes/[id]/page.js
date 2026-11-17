@@ -12,6 +12,7 @@ import {
 } from "react-bootstrap";
 import Image from "next/image";
 import ToggleIngredients from "@/components/ToggleIngredients";
+import CalorieCalculator from "@/components/CalorieCalculator";
 
 const RecipesId = async ({ params }) => {
 	const paramsResponse = await params;
@@ -86,6 +87,10 @@ const RecipesId = async ({ params }) => {
 							</Card>
 						</Col>
 					</Row>
+					<CalorieCalculator
+						caloriesPerServing={data.caloriesPerServing}
+						servings={data.servings}
+					/>
 
 					<div className="d-flex flex-wrap gap-2">
 						{data.tags.map((tag) => {
