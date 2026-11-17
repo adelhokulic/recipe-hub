@@ -29,6 +29,15 @@
   --bs-btn-active-border-color: #9a3412;
 }
 
+/* Paginacija u narančastoj boji */
+.pagination {
+  --bs-pagination-color: #ea580c;
+  --bs-pagination-hover-color: #c2410c;
+  --bs-pagination-focus-color: #c2410c;
+  --bs-pagination-active-bg: #ea580c;
+  --bs-pagination-active-border-color: #ea580c;
+}
+
 .btn-outline-primary {
   --bs-btn-color: #ea580c;
   --bs-btn-border-color: #ea580c;
