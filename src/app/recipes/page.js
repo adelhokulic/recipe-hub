@@ -6,7 +6,7 @@ import RecipesPagination from "@/components/RecipesPagination";
 
 const Recipes = async ({ searchParams }) => {
 	const query = await searchParams;
-	const pageNumber = Math.max(1, Number(query.page)) || 1;
+	const pageNumber = Math.max(1, Math.floor(Number(query.page))) || 1;
 	const pageLimiter = 9;
 	const skip = (pageNumber - 1) * pageLimiter;
 	const data = await getRecipes(pageLimiter, skip);

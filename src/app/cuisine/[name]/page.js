@@ -1,15 +1,15 @@
 import NotFound from "@/components/NotFound";
 import RecipeCard from "@/components/RecipeCard";
-import {
-	getAllRecipes,
-} from "@/services/recipeService";
+import { getAllRecipes } from "@/services/recipeService";
 import { Col, Row } from "react-bootstrap";
 
 const CuisinePage = async ({ params }) => {
 	const paramsResponse = await params;
 	const cuisine = decodeURIComponent(paramsResponse.name);
 	const data = await getAllRecipes();
-	const filtered = data.recipes.filter((recipe) => recipe.cuisine === cuisine);
+	const filtered = data.recipes.filter(
+		(recipe) => recipe.cuisine.toLowerCase() === cuisine.toLowerCase(),
+	);
 	if (filtered.length === 0)
 		return (
 			<NotFound
@@ -21,7 +21,9 @@ const CuisinePage = async ({ params }) => {
 		<>
 			<div className="mb-4">
 				<h1 className="fw-bold">Recipes from cuisine "{cuisine}"</h1>
-				<p className="text-secondary mb-0">Number of recipes: {filtered.length}</p>
+				<p className="text-secondary mb-0">
+					Number of recipes: {filtered.length}
+				</p>
 			</div>
 
 			<Row xs={1} sm={2} lg={3} className="g-4">
