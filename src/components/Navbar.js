@@ -9,16 +9,16 @@ import {
 
 const Navbar = () => {
 	return (
-		<BsNavbar bg="white" sticky="top" expand="md" className="border-bottom shadow-sm">
-			<Container>
-				<Link href="/" className="navbar-brand fw-bold fs-4">
-					<span className="text-primary">Recipe</span>Hub
+		<BsNavbar sticky="top" expand="md" className="app-navbar border-bottom py-0">
+			<Container className="h-100">
+				<Link href="/" className="navbar-brand brand-logo fs-4">
+					<span>Recipe</span>Hub
 				</Link>
 
-				<NavbarToggle aria-controls="main-nav" />
+				<NavbarToggle aria-controls="main-nav" className="border-0 shadow-none" />
 
 				<NavbarCollapse id="main-nav">
-					<Nav className="ms-auto">
+					<Nav className="ms-auto align-items-md-center gap-md-1">
 						<Link href="/" className="nav-link">
 							Home
 						</Link>
@@ -26,7 +26,7 @@ const Navbar = () => {
 							Recipes
 						</Link>
 
-						<div className="vr mx-2 d-none d-md-block" />
+						<div className="vr mx-2 my-3 d-none d-md-block" />
 
 						<Link href="/meal-type/breakfast" className="nav-link">
 							Breakfast

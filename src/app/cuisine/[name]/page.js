@@ -1,5 +1,7 @@
 import NotFound from "@/components/NotFound";
 import RecipeCard from "@/components/RecipeCard";
+import BrowseLayout from "@/components/BrowseLayout";
+import PageHeader from "@/components/PageHeader";
 import { getAllRecipes } from "@/services/recipeService";
 import { Col, Row } from "react-bootstrap";
 
@@ -18,15 +20,14 @@ const CuisinePage = async ({ params }) => {
 			/>
 		);
 	return (
-		<>
-			<div className="mb-4">
-				<h1 className="fw-bold">Recipes from cuisine "{cuisine}"</h1>
-				<p className="text-secondary mb-0">
-					Number of recipes: {filtered.length}
-				</p>
-			</div>
+		<BrowseLayout active={`/cuisine/${cuisine}`}>
+			<PageHeader
+				eyebrow="Cuisine"
+				title={`Recipes from cuisine "${cuisine}"`}
+				subtitle={`${filtered.length} ${filtered.length === 1 ? "recipe" : "recipes"}`}
+			/>
 
-			<Row xs={1} sm={2} lg={3} className="g-4">
+			<Row xs={1} sm={2} xl={3} className="recipe-grid g-4">
 				{filtered.map((recipe) => {
 					return (
 						<Col key={recipe.id}>
@@ -35,7 +36,7 @@ const CuisinePage = async ({ params }) => {
 					);
 				})}
 			</Row>
-		</>
+		</BrowseLayout>
 	);
 };
 

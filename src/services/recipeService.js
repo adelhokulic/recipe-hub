@@ -9,6 +9,21 @@ export const getAllCuisine = async () => {
 	);
 	return await response.json();
 };
+
+export const getTopCuisines = async (count = 5) => {
+	const cuisines = await getAllCuisine();
+	const counts = cuisines.recipes.reduce((sum, recipe) => {
+		sum[recipe.cuisine] = sum[recipe.cuisine] + 1 || 1;
+		return sum;
+	}, {});
+	const names = Object.keys(counts);
+	names.sort((a, b) => counts[b] - counts[a]);
+
+	return names.slice(0, count).map((name) => {
+		return { name, count: counts[name] };
+	});
+};
+
 export const getRecipes = async (limit = 9, skip = 0) => {
 	const response = await fetch(
 		`${process.env.RECIPE_API_URL}recipes?limit=${limit}&skip=${skip}`,

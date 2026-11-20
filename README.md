@@ -4,7 +4,7 @@ A recipe browsing website built with **Next.js (App Router)** and **React Bootst
 
 Every page is a React **Server Component** that fetches its own data on the server. Interactivity is limited to two small Client Components, so the browser downloads very little JavaScript and never calls the external API directly.
 
-**Live demo:** [recipe-hub.vercel.app](https://recipe-hub.vercel.app) &nbsp;·&nbsp; **Repository:** [github.com/adelhokulic/recipe-hub](https://github.com/adelhokulic/recipe-hub)
+**Live demo:** [recipe-hub-rho-three.vercel.app](https://recipe-hub-rho-three.vercel.app) &nbsp;·&nbsp; **Repository:** [github.com/adelhokulic/recipe-hub](https://github.com/adelhokulic/recipe-hub)
 
 ---
 
@@ -13,12 +13,18 @@ Every page is a React **Server Component** that fetches its own data on the serv
 - **Home page** with 9 featured recipes shown as responsive cards (image, cuisine, name, prep time, difficulty, rating)
 - **All recipes** with pagination driven by a URL parameter (`/recipes?page=2`)
 - **Recipe details** with image, prep and cook time, servings, calories, tags, ingredients and numbered steps
-- **Browse by tag, cuisine and meal type**, all reachable from the tags on each recipe, the footer and the navigation
+- **Browse by tag, cuisine and meal type** from a sticky sidebar that highlights the current section, the tags on each recipe, the navigation and the footer
 - **Show/hide ingredients** toggle (Client Component)
 - **Calorie calculator**: choose a number of servings and see the total calories update (Client Component)
-- **Top 5 cuisines in the footer**, calculated from the full recipe list and sorted by number of recipes
+- **Top cuisines**, calculated from the full recipe list and sorted by number of recipes, shown with counts in the sidebar and in the footer
 - **Friendly "not found" states** for invalid recipe IDs, unknown tags, cuisines, meal types and out-of-range pages
-- **Responsive layout**: one column on mobile, two on tablet, three on desktop, plus a collapsible navigation menu
+- **Responsive, app-like layout**: the sidebar turns into a scrollable chip row on mobile, cards go from one to three columns, and the recipe image stays in view while you scroll the steps on desktop
+
+## Design
+
+The visual style matches my [portfolio](https://github.com/adelhokulic/cv-portfolio): the same blue accent (`#2f6fed`), neutral background, 12px corners and soft shadows, applied by overriding Bootstrap's CSS variables in one small `globals.css`. Everything else is built from React Bootstrap components and Bootstrap utility classes.
+
+Motion is done in pure CSS: cards fade in one after another, lift on hover and slightly zoom their image. All animations are turned off for visitors who prefer reduced motion.
 
 ## Tech Stack
 
@@ -27,7 +33,7 @@ Every page is a React **Server Component** that fetches its own data on the serv
 | Framework | Next.js 16 (App Router, Turbopack) |
 | UI | React 19, React Bootstrap 2, Bootstrap 5 |
 | Images | `next/image` with a remote pattern for `cdn.dummyjson.com` |
-| Fonts | `next/font` (Geist) |
+| Styling | Bootstrap CSS variables and utilities, a few custom classes, CSS animations |
 | Data | DummyJSON Recipes API |
 | Deployment | Vercel |
 
@@ -65,9 +71,11 @@ All API calls live in [`src/services/recipeService.js`](src/services/recipeServi
 
 The API has no cuisine endpoint. Using the tag endpoint instead gave wrong results: 8 of the 21 cuisines did not match. For example, the `Asian` tag returns 12 recipes, but only 3 recipes actually have `cuisine: "Asian"`. The cuisine page therefore loads all recipes (`limit=0`) and filters them in the Server Component, ignoring letter case.
 
-### Top cuisines in the footer
+### Top cuisines and the browse sidebar
 
-The footer counts recipes per cuisine with `reduce`, sorts the cuisine names by that count and shows the top 5. It runs on the server inside the shared layout, and caching keeps it from calling the API on every page view.
+`getTopCuisines()` counts recipes per cuisine with `reduce`, sorts the names by that count and returns the most popular ones. The sidebar and the footer both use it, and because the request is cached they don't call the API on every page view.
+
+The sidebar is a Server Component too. Each page tells it which link is active through an `active` prop (for example `/cuisine/Italian`), so highlighting the current section needs no client-side JavaScript.
 
 ## Project Structure
 
@@ -76,7 +84,7 @@ src/
 ├── app/
 │   ├── layout.js                 # Shared layout: Navbar, <main>, Footer
 │   ├── page.js                   # /
-│   ├── globals.css               # Small theme overrides on top of Bootstrap
+│   ├── globals.css               # Theme variables, custom classes and animations
 │   ├── recipes/
 │   │   ├── page.js               # /recipes (pagination)
 │   │   └── [id]/page.js          # /recipes/[id]
@@ -86,13 +94,16 @@ src/
 ├── components/
 │   ├── Navbar.js
 │   ├── Footer.js                 # Server Component that fetches its own data
+│   ├── BrowseLayout.js           # Sidebar + content grid for list pages
+│   ├── BrowseSidebar.js          # Meal types, top cuisines and tags, with the active link
+│   ├── PageHeader.js
 │   ├── RecipeCard.js
 │   ├── RecipesPagination.js
 │   ├── NotFound.js               # Reusable, configured through title and message props
 │   ├── ToggleIngredients.js      # "use client"
 │   └── CalorieCalculator.js      # "use client"
 └── services/
-    └── recipeService.js          # All API calls
+    └── recipeService.js          # All API calls and the top cuisines helper
 ```
 
 ## Getting Started

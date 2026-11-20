@@ -8,7 +8,7 @@ const ToggleIngredients = ({ children }) => {
 
 	return (
 		<>
-			<Card.Header className="bg-white d-flex justify-content-between align-items-center py-3">
+			<Card.Header className="bg-white d-flex justify-content-between align-items-center py-3 px-4">
 				<h2 className="fs-5 fw-bold mb-0">Ingredients</h2>
 				<Button
 					variant="outline-primary"

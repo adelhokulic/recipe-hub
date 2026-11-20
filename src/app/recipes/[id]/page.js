@@ -25,113 +25,108 @@ const RecipesId = async ({ params }) => {
 	}
 
 	return (
-		<article>
+		<article className="fade-in">
 			<Link
-				href="/"
-				className="d-inline-block mb-4 text-secondary text-decoration-none"
+				href="/recipes"
+				className="d-inline-flex align-items-center gap-1 mb-4 small fw-medium text-secondary text-decoration-none"
 			>
 				← Back to recipes
 			</Link>
 
-			<Row className="g-4 align-items-center mb-5">
-				<Col md={6}>
-					<div className="ratio ratio-1x1 rounded-4 overflow-hidden shadow-sm">
-						<Image
-							src={data.image}
-							alt={data.name}
-							width={600}
-							height={600}
-							priority
-							className="object-fit-cover"
-						/>
+			<Row className="g-4 g-xl-5">
+				<Col lg={5}>
+					<div className="sticky-media d-flex flex-column gap-3">
+						<div className="recipe-media ratio ratio-1x1">
+							<Image
+								src={data.image}
+								alt={data.name}
+								width={600}
+								height={600}
+								priority
+								className="object-fit-cover"
+							/>
+						</div>
+
+						<div className="d-flex flex-wrap gap-2">
+							{data.tags.map((tag) => {
+								return (
+									<Link key={tag} href={`/tags/${tag}`} className="tag-pill">
+										#{tag}
+									</Link>
+								);
+							})}
+						</div>
 					</div>
 				</Col>
 
-				<Col md={6}>
-					<p className="text-primary text-uppercase small fw-semibold mb-1">
-						{data.cuisine}
-					</p>
-					<h1 className="display-6 fw-bold">{data.name}</h1>
-					<p className="fw-semibold">
-						★ {data.rating}{" "}
-						<span className="text-secondary fw-normal">
-							({data.reviewCount} reviews)
-						</span>
-					</p>
+				<Col lg={7} className="d-flex flex-column gap-4">
+					<header>
+						<p className="eyebrow mb-2">{data.cuisine}</p>
+						<h1 className="display-6 fw-bold mb-2">{data.name}</h1>
+						<p className="mb-0 fw-semibold">
+							<span className="text-warning">★</span> {data.rating}{" "}
+							<span className="text-secondary fw-normal">
+								({data.reviewCount} reviews)
+							</span>
+						</p>
+					</header>
 
-					<Row xs={2} lg={4} className="g-2 my-3">
-						<Col>
-							<Card body className="h-100 border-0 shadow-sm">
-								<div className="fs-5 fw-bold">{data.prepTimeMinutes} min</div>
-								<div className="small text-secondary">Prep time</div>
-							</Card>
-						</Col>
-						<Col>
-							<Card body className="h-100 border-0 shadow-sm">
-								<div className="fs-5 fw-bold">{data.cookTimeMinutes} min</div>
-								<div className="small text-secondary">Cook time</div>
-							</Card>
-						</Col>
-						<Col>
-							<Card body className="h-100 border-0 shadow-sm">
-								<div className="fs-5 fw-bold">{data.servings}</div>
-								<div className="small text-secondary">Servings</div>
-							</Card>
-						</Col>
-						<Col>
-							<Card body className="h-100 border-0 shadow-sm">
-								<div className="fs-5 fw-bold">
-									{data.caloriesPerServing} kcal
+					<div className="surface p-3">
+						<Row xs={2} md={4} className="g-2">
+							<Col>
+								<div className="stat-tile">
+									<div className="stat-value">{data.prepTimeMinutes} min</div>
+									<div className="stat-label">Prep time</div>
 								</div>
-								<div className="small text-secondary">Per serving</div>
-							</Card>
-						</Col>
-					</Row>
+							</Col>
+							<Col>
+								<div className="stat-tile">
+									<div className="stat-value">{data.cookTimeMinutes} min</div>
+									<div className="stat-label">Cook time</div>
+								</div>
+							</Col>
+							<Col>
+								<div className="stat-tile">
+									<div className="stat-value">{data.servings}</div>
+									<div className="stat-label">Servings</div>
+								</div>
+							</Col>
+							<Col>
+								<div className="stat-tile">
+									<div className="stat-value">{data.caloriesPerServing} kcal</div>
+									<div className="stat-label">Per serving</div>
+								</div>
+							</Col>
+						</Row>
+					</div>
+
 					<CalorieCalculator
 						caloriesPerServing={data.caloriesPerServing}
 						servings={data.servings}
 					/>
 
-					<div className="d-flex flex-wrap gap-2">
-						{data.tags.map((tag) => {
-							return (
-								<Link
-									key={tag}
-									href={`/tags/${tag}`}
-									className="btn btn-outline-primary btn-sm rounded-pill"
-								>
-									#{tag}
-								</Link>
-							);
-						})}
-					</div>
-				</Col>
-			</Row>
-
-			<Row className="g-4 align-items-start">
-				<Col md={4}>
-					<Card className="border-0 shadow-sm">
+					<Card className="surface overflow-hidden">
 						<ToggleIngredients>
 							<ListGroup variant="flush">
 								{data.ingredients.map((ingredient) => {
 									return (
-										<ListGroupItem key={ingredient}>{ingredient}</ListGroupItem>
+										<ListGroupItem key={ingredient} className="px-4 py-2">
+											{ingredient}
+										</ListGroupItem>
 									);
 								})}
 							</ListGroup>
 						</ToggleIngredients>
 					</Card>
-				</Col>
 
-				<Col md={8}>
-					<Card className="border-0 shadow-sm">
-						<CardHeader className="bg-white py-3">
+					<Card className="surface overflow-hidden">
+						<CardHeader className="bg-white py-3 px-4">
 							<h2 className="fs-5 fw-bold mb-0">Instructions</h2>
 						</CardHeader>
-						<ListGroup as="ol" numbered variant="flush">
+						<ListGroup as="ol" numbered variant="flush" className="steps-list">
 							{data.instructions.map((instruction) => {
 								return (
-									<ListGroupItem as="li" key={instruction}>
+									<ListGroupItem as="li" key={instruction} className="px-4">
 										{instruction}
 									</ListGroupItem>
 								);

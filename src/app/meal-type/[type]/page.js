@@ -1,5 +1,7 @@
 import NotFound from "@/components/NotFound";
 import RecipeCard from "@/components/RecipeCard";
+import BrowseLayout from "@/components/BrowseLayout";
+import PageHeader from "@/components/PageHeader";
 import { getRecipeByMealType } from "@/services/recipeService";
 import { Col, Row } from "react-bootstrap";
 
@@ -15,15 +17,18 @@ const MealType = async ({ params }) => {
 			/>
 		);
 	return (
-		<>
-			<div className="mb-4">
-				<h1 className="fw-bold">
-					<span className="text-capitalize">{type}</span> recipes
-				</h1>
-				<p className="text-secondary mb-0">Number of recipes: {data.total}</p>
-			</div>
+		<BrowseLayout active={`/meal-type/${type}`}>
+			<PageHeader
+				eyebrow="Meal type"
+				title={
+					<>
+						<span className="text-capitalize">{type}</span> recipes
+					</>
+				}
+				subtitle={`${data.total} ${data.total === 1 ? "recipe" : "recipes"}`}
+			/>
 
-			<Row xs={1} sm={2} lg={3} className="g-4">
+			<Row xs={1} sm={2} xl={3} className="recipe-grid g-4">
 				{data.recipes.map((recipe) => {
 					return (
 						<Col key={recipe.id}>
@@ -32,7 +37,7 @@ const MealType = async ({ params }) => {
 					);
 				})}
 			</Row>
-		</>
+		</BrowseLayout>
 	);
 };
 

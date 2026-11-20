@@ -3,6 +3,8 @@ import RecipeCard from "@/components/RecipeCard";
 import { Col, Row } from "react-bootstrap";
 import NotFound from "@/components/NotFound";
 import RecipesPagination from "@/components/RecipesPagination";
+import BrowseLayout from "@/components/BrowseLayout";
+import PageHeader from "@/components/PageHeader";
 
 const Recipes = async ({ searchParams }) => {
 	const query = await searchParams;
@@ -21,15 +23,14 @@ const Recipes = async ({ searchParams }) => {
 			/>
 		);
 	return (
-		<>
-			<div className="mb-4">
-				<h1 className="fw-bold">All Recipes</h1>
-				<p className="text-secondary mb-0">
-					Page {pageNumber} of {totalPages}
-				</p>
-			</div>
+		<BrowseLayout active="/recipes">
+			<PageHeader
+				eyebrow="Browse"
+				title="All Recipes"
+				subtitle={`${data.total} recipes · Page ${pageNumber} of ${totalPages}`}
+			/>
 
-			<Row xs={1} sm={2} lg={3} className="g-4">
+			<Row xs={1} sm={2} xl={3} className="recipe-grid g-4">
 				{recipes.map((recipe) => {
 					return (
 						<Col key={recipe.id}>
@@ -39,7 +40,7 @@ const Recipes = async ({ searchParams }) => {
 				})}
 			</Row>
 			<RecipesPagination currentPage={pageNumber} totalPages={totalPages} />
-		</>
+		</BrowseLayout>
 	);
 };
 

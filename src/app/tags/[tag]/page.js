@@ -1,5 +1,7 @@
 import NotFound from "@/components/NotFound";
 import RecipeCard from "@/components/RecipeCard";
+import BrowseLayout from "@/components/BrowseLayout";
+import PageHeader from "@/components/PageHeader";
 import { getRecipeByTag } from "@/services/recipeService";
 import { Col, Row } from "react-bootstrap";
 
@@ -15,13 +17,14 @@ const TagsPage = async ({ params }) => {
 			/>
 		);
 	return (
-		<>
-			<div className="mb-4">
-				<h1 className="fw-bold">Recipes tagged "{tag}"</h1>
-				<p className="text-secondary mb-0">Number of recipes: {data.total}</p>
-			</div>
+		<BrowseLayout active={`/tags/${tag}`}>
+			<PageHeader
+				eyebrow="Tag"
+				title={`Recipes tagged "${tag}"`}
+				subtitle={`${data.total} ${data.total === 1 ? "recipe" : "recipes"}`}
+			/>
 
-			<Row xs={1} sm={2} lg={3} className="g-4">
+			<Row xs={1} sm={2} xl={3} className="recipe-grid g-4">
 				{data.recipes.map((recipe) => {
 					return (
 						<Col key={recipe.id}>
@@ -30,7 +33,7 @@ const TagsPage = async ({ params }) => {
 					);
 				})}
 			</Row>
-		</>
+		</BrowseLayout>
 	);
 };
 
